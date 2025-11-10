@@ -199,7 +199,7 @@ class SeedData {
       'fk_id_estabelecimento': 1,
       'fk_id_criador': 1,
       'fk_id_esporte': 1,
-      'visibilidade': 'publico',
+      'visibilidade': 'privado',
       'idade_min': 14,
       'idade_max': 45,
       'genero': 'feminino',

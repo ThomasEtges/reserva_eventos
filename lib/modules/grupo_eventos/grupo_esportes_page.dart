@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'grupo_esportes_controller.dart';
+import 'package:reserva_eventos/widgets/grupo_esportes_card.dart';
 
 class GrupoEsportesPage extends StatefulWidget {
   const GrupoEsportesPage({super.key});
@@ -32,10 +32,7 @@ class _GrupoEsportesPageState extends State<GrupoEsportesPage> {
       appBar: AppBar(
         title: const Text('Grupos de Esportes'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: loadGrupos,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: loadGrupos),
         ],
       ),
 
@@ -54,30 +51,40 @@ class _GrupoEsportesPageState extends State<GrupoEsportesPage> {
               itemCount: grupos.length,
               itemBuilder: (context, index) {
                 final grupo = grupos[index];
-                return Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  child: ListTile(
-                    title: Text(
-                      grupo['nome'],
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(grupo['descricao'] ?? ''),
-                    trailing: ElevatedButton(
-                      onPressed: () async {
-                        await controller.participar(grupo['id']);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Você entrou em ${grupo['nome']}!'),
-                          ),
-                        );
-                        Modular.to.navigate('/home/');
-                      },
-                      child: const Text('Participar'),
-                    ),
-                  ),
+
+                return GrupoEsportesCard(
+                  grupoEsporte: grupo,
+                  onParticiparOuSair: () async {
+                    final participa = (grupo['participa'] ?? 0) == 1;
+                    await controller.alternarParticipacao(
+                      grupo['id'],
+                      participa,
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          participa
+                              ? 'Você saiu de ${grupo['nome']}!'
+                              : 'Você entrou em ${grupo['nome']}!',
+                        ),
+                      ),
+                    );
+
+                    await loadGrupos();
+                  },
                 );
               },
             ),
+
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          controller.criarGrupoEsporteDialog(context);
+        },
+        icon: const Icon(Icons.add),
+        label: const Text('CRIAR GRUPO'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

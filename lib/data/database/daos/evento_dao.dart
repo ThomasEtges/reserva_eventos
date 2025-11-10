@@ -1,6 +1,14 @@
 import 'package:reserva_eventos/data/database/app_database.dart';
+import 'package:reserva_eventos/data/models/evento.dart';
+import 'package:sqflite/sqflite.dart';
 
 class EventoDAO {
+
+  Future<int> insert(Evento evento) async {
+    final db = await AppDatabase.instance.database;
+    return db.insert('usuarios', evento.toMap(), conflictAlgorithm: ConflictAlgorithm.abort);
+  }
+
   Future<List<Map<String, dynamic>>> buscarEventosPorUsuario(int userId) async {
     final db = await AppDatabase.instance.database;
 
@@ -12,7 +20,6 @@ class EventoDAO {
         FROM grupos_esportes_participantes g
         WHERE g.fk_id_usuario = ?
       )
-      AND e.status = 'publico'
       ORDER BY e.data_hora_inicio ASC
     ''', [userId]);
   }

@@ -22,36 +22,38 @@ class UserRepository {
       idade: idade,
       fkIdCidade: fkIdCidade,
     );
+
     final id = await _dao.insert(user);
-    return user.copyWith(id: id);
+
+    return User(
+      id: id,
+      nome: user.nome,
+      email: user.email,
+      senhaHash: user.senhaHash,
+      genero: user.genero,
+      idade: user.idade,
+      fkIdCidade: user.fkIdCidade,
+    );
   }
+
 
   Future<User?> login(String email, String senha) async {
     final hash = hashPassword(senha);
     return _dao.login(email.trim().toLowerCase(), hash);
   }
-}
 
-
-
-extension on User {
-  User copyWith({
-    int? id,
-    String? nome,
-    String? email,
-    String? senhaHash,
-    String? genero,
-    int? idade,
-    int? fkIdCidade,
-  }) {
-    return User(
-      id: id ?? this.id,
-      nome: nome ?? this.nome,
-      email: email ?? this.email,
-      senhaHash: senhaHash ?? this.senhaHash,
-      genero: genero ?? this.genero,
-      idade: idade ?? this.idade,
-      fkIdCidade: fkIdCidade ?? this.fkIdCidade,
-    );
+  Future<List<Map<String, dynamic>>> buscarEsportesFavoritos(int userId) {
+    return _dao.buscarEsportesFavoritos(userId);
   }
+
+  Future<int?> buscarCidadeUsuario(int userId) {
+    return _dao.buscarCidadeUsuario(userId);
+  }
+
+  Future<List<Map<String, dynamic>>> listarGruposComParticipacao(int userId) async {
+  return _dao.listarGruposComParticipacao(userId);
+  }
+
+  
 }
+

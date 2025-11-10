@@ -196,7 +196,7 @@ class AppDatabase {
       );
     ''');
 
-    //await SeedData.populate(db);
+   // await SeedData.populate(db);
 
   }
 

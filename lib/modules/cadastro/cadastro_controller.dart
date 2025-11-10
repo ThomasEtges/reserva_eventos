@@ -81,8 +81,6 @@ class CadastroController {
 
       Modular.to.navigate('/login/');
 
-      
-
     } catch (e) {
       ScaffoldMessenger.of(
         context,

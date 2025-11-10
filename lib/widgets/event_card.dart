@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class EventCard extends StatelessWidget {
+class EventoCard extends StatelessWidget {
   final Map<String, dynamic> evento;
 
-  const EventCard({super.key, required this.evento});
+  const EventoCard({super.key, required this.evento});
 
   @override
   Widget build(BuildContext context) {

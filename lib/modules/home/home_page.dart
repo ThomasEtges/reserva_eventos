@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
               : ListView.builder(
                   itemCount: eventos.length,
                   itemBuilder: (context, index) {
-                    return EventCard(evento: eventos[index]);
+                    return EventoCard(evento: eventos[index]);
                   },
                 ),
     );
