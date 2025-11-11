@@ -206,7 +206,6 @@ class AppDatabase {
         fk_id_destinatario INTEGER NOT NULL,
         origem_pedido TEXT NOT NULL,
         status TEXT NOT NULL,
-        FOREIGN KEY (fk_id_origem_pedido) REFERENCES usuarios (id),
         FOREIGN KEY (fk_id_usuario) REFERENCES usuarios (id),
         FOREIGN KEY (fk_id_destinatario) REFERENCES usuarios (id)
       );

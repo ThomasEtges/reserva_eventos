@@ -144,7 +144,6 @@ class HomeController {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Grupo
                   DropdownButtonFormField<int>(
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),

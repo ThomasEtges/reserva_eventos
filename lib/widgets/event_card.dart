@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class EventoCard extends StatelessWidget {
   final Map<String, dynamic> evento;
@@ -21,6 +22,10 @@ class EventoCard extends StatelessWidget {
         ),
         isThreeLine: true,
         onTap: () {
+          Modular.to.pushNamed(
+            '/evento_detalhes/',
+            arguments: evento['id'],
+          );
         },
       ),
     );

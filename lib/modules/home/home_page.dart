@@ -41,12 +41,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Eventos disponíveis'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _carregarEventos,
-          ),
-        ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -61,12 +55,20 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 )
-              : ListView.builder(
-                  itemCount: eventos.length,
-                  itemBuilder: (context, index) {
-                    return EventoCard(evento: eventos[index]);
-                  },
-                ),
+              : Column(
+                children: [
+                  IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: _carregarEventos,
+          ),
+                  ListView.builder(
+                      itemCount: eventos.length,
+                      itemBuilder: (context, index) {
+                        return EventoCard(evento: eventos[index]);
+                      },
+                    ),
+                ],
+              ),
                 floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
