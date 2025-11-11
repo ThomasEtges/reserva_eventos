@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:reserva_eventos/modules/home/home_controller.dart';
 import 'package:reserva_eventos/widgets/event_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +67,35 @@ class _HomePageState extends State<HomePage> {
                     return EventoCard(evento: eventos[index]);
                   },
                 ),
+                floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: 'btn_grupos',
+            backgroundColor: const Color.fromARGB(255, 69, 90, 100),
+            icon: const Icon(Icons.home, color: Colors.white),
+            label: const Text('Grupos Eventos', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              Modular.to.navigate('/grupos_esportes/');
+            },
+          ),
+          FloatingActionButton.extended(
+            heroTag: 'btn_criar_evento',
+            backgroundColor: Colors.deepPurple,
+            icon: const Icon(Icons.add, color: Colors.white),
+            label:
+                const Text('Criar Evento', style: TextStyle(color: Colors.white)),
+            onPressed: () async {
+              await controller.abrirCriarEventoDialog(context);
+              await _carregarEventos();
+            },
+          ),
+        ],
+      ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+    
   }
 }
 

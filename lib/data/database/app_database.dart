@@ -91,6 +91,32 @@ class AppDatabase {
     ''');
 
     await db.execute('''
+      CREATE TABLE quadra_horarios (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fk_id_quadra INTEGER NOT NULL,
+        dia_semana INTEGER NOT NULL,
+        hora_inicio TEXT NOT NULL,
+        hora_fim TEXT NOT NULL, 
+        disponivel INTEGER NOT NULL DEFAULT 1,
+        FOREIGN KEY (fk_id_quadra) REFERENCES quadras (id)
+      );
+    ''');
+    
+    await db.execute('''
+      CREATE TABLE quadra_reservas (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fk_id_evento INTEGER NOT NULL,
+        fk_id_quadra INTEGER NOT NULL,
+        data TEXT NOT NULL,     
+        hora_inicio TEXT NOT NULL,
+        hora_fim TEXT NOT NULL, 
+        status TEXT NOT NULL DEFAULT 'reservado', 
+        FOREIGN KEY (fk_id_evento) REFERENCES eventos (id),
+        FOREIGN KEY (fk_id_quadra) REFERENCES quadras (id)
+      );
+    ''');
+
+    await db.execute('''
       CREATE TABLE grupos_esportes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
@@ -196,7 +222,7 @@ class AppDatabase {
       );
     ''');
 
-   // await SeedData.populate(db);
+    //await SeedData.populate(db);
 
   }
 

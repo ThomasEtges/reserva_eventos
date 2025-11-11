@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:reserva_eventos/data/database/daos/user_dao.dart';
 import 'package:reserva_eventos/data/repositories/grupo_esportes_repository.dart';
 import 'package:reserva_eventos/data/database/daos/grupo_esportes_dao.dart';
@@ -17,7 +18,7 @@ class GrupoEsportesController {
   Future<List<Map<String, dynamic>>> listarGrupos() async {
     final userId = await getUserId();
     if (userId == null) return [];
-    return UserRepo.listarGruposComParticipacao(userId);
+    return UserRepo.listarGrupos(userId);
   }
 
   Future<void> alternarParticipacao(int grupoId, bool participa) async {
@@ -84,6 +85,8 @@ class GrupoEsportesController {
       );
 
       Navigator.pop(context, true);
+
+      Modular.to.navigate('/home/');
 
     } catch (e) {
       ScaffoldMessenger.of(

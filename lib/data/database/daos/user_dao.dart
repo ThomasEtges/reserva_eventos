@@ -78,11 +78,11 @@ class UserDAO {
     return result.isNotEmpty ? result.first['fk_id_cidade'] as int : null;
   }
 
-  Future<List<Map<String, dynamic>>> listarGruposComParticipacao(int userId) async {
+  Future<List<Map<String, dynamic>>> listarGrupos(int userId) async {
     final db = await AppDatabase.instance.database;
     return await db.rawQuery('''
-      SELECT 
-        g.*, 
+      SELECT
+        g.*,
         CASE WHEN p.fk_id_usuario IS NOT NULL THEN 1 ELSE 0 END AS participa
       FROM grupos_esportes g
       LEFT JOIN grupos_esportes_participantes p

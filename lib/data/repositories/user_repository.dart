@@ -50,8 +50,8 @@ class UserRepository {
     return _dao.buscarCidadeUsuario(userId);
   }
 
-  Future<List<Map<String, dynamic>>> listarGruposComParticipacao(int userId) async {
-  return _dao.listarGruposComParticipacao(userId);
+  Future<List<Map<String, dynamic>>> listarGrupos(int userId) async {
+  return _dao.listarGrupos(userId);
   }
 
   

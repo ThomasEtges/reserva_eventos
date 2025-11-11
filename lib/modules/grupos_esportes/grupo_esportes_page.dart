@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'grupo_esportes_controller.dart';
 import 'package:reserva_eventos/widgets/grupo_esportes_card.dart';
 
@@ -77,14 +78,33 @@ class _GrupoEsportesPageState extends State<GrupoEsportesPage> {
               },
             ),
 
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          controller.criarGrupoEsporteDialog(context);
-        },
-        icon: const Icon(Icons.add),
-        label: const Text('CRIAR GRUPO'),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: 'btn_home',
+            backgroundColor: Colors.blueGrey[700],
+            icon: const Icon(Icons.home, color: Colors.white),
+            label: const Text('Home', style: TextStyle(color: Colors.white)),
+            onPressed: () {
+              Modular.to.navigate('/home/');
+            },
+          ),
+          FloatingActionButton.extended(
+            heroTag: 'btn_criar_grupo',
+            backgroundColor: Colors.deepPurple,
+            icon: const Icon(Icons.add, color: Colors.white),
+            label:
+                const Text('Criar Grupo', style: TextStyle(color: Colors.white)),
+            onPressed: () async {
+              await controller.criarGrupoEsporteDialog(context);
+              await loadGrupos();
+            },
+          ),
+        ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

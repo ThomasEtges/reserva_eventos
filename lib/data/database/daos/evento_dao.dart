@@ -6,7 +6,16 @@ class EventoDAO {
 
   Future<int> insert(Evento evento) async {
     final db = await AppDatabase.instance.database;
-    return db.insert('usuarios', evento.toMap(), conflictAlgorithm: ConflictAlgorithm.abort);
+    return db.insert(
+      'eventos',
+      evento.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> getAll() async {
+    final db = await AppDatabase.instance.database;
+    return db.query('eventos', orderBy: 'data_hora_inicio ASC');
   }
 
   Future<List<Map<String, dynamic>>> buscarEventosPorUsuario(int userId) async {

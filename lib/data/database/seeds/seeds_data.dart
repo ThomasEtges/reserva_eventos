@@ -115,6 +115,12 @@ class SeedData {
       'fk_id_estabelecimento': 5,
       'fk_id_esporte': 7,
     });
+    batch.insert('quadras', {
+      //id 9
+      'nome': 'Campo de Futebol',
+      'fk_id_estabelecimento': 1,
+      'fk_id_esporte': 1,
+    });
     
     final senhaAdmin = 'admin123';
     final senhaHash =
@@ -207,6 +213,151 @@ class SeedData {
       'data_hora_fim': '2025-11-20 20:30',
       'status': 'publico',
     });
+
+    // Quadra A (Basquete)
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 1,
+      'dia_semana': 1,
+      'hora_inicio': '19:00',
+      'hora_fim': '20:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 1,
+      'dia_semana': 3,
+      'hora_inicio': '19:00',
+      'hora_fim': '20:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 1,
+      'dia_semana': 5,
+      'hora_inicio': '19:00',
+      'hora_fim': '20:00',
+    });
+
+    // Quadra B (Vôlei)
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 2,
+      'dia_semana': 2,
+      'hora_inicio': '18:30',
+      'hora_fim': '19:30',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 2,
+      'dia_semana': 4,
+      'hora_inicio': '18:30',
+      'hora_fim': '19:30',
+    });
+
+    // Campo 1 (Futebol)
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 3,
+      'dia_semana': 2,
+      'hora_inicio': '18:00',
+      'hora_fim': '20:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 3,
+      'dia_semana': 4,
+      'hora_inicio': '18:00',
+      'hora_fim': '20:00',
+    });
+
+    // Campo 2 (Futsal)
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 4,
+      'dia_semana': 3,
+      'hora_inicio': '19:30',
+      'hora_fim': '21:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 4,
+      'dia_semana': 6,
+      'hora_inicio': '10:00',
+      'hora_fim': '12:00',
+    });
+
+    // Quadra Tênis 1
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 5,
+      'dia_semana': 1,
+      'hora_inicio': '08:00',
+      'hora_fim': '09:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 5,
+      'dia_semana': 3,
+      'hora_inicio': '08:00',
+      'hora_fim': '09:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 5,
+      'dia_semana': 5,
+      'hora_inicio': '08:00',
+      'hora_fim': '09:00',
+    });
+
+    // Quadra Padel 1
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 6,
+      'dia_semana': 2,
+      'hora_inicio': '18:00',
+      'hora_fim': '19:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 6,
+      'dia_semana': 4,
+      'hora_inicio': '18:00',
+      'hora_fim': '19:00',
+    });
+
+    // Campo Arena Vale
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 7,
+      'dia_semana': 1,
+      'hora_inicio': '20:00',
+      'hora_fim': '21:30',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 7,
+      'dia_semana': 5,
+      'hora_inicio': '20:00',
+      'hora_fim': '21:30',
+    });
+
+    // Ginásio 1 (Handebol)
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 8,
+      'dia_semana': 2,
+      'hora_inicio': '19:00',
+      'hora_fim': '20:30',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 8,
+      'dia_semana': 4,
+      'hora_inicio': '19:00',
+      'hora_fim': '20:30',
+    });
+
+    // Campo de Futebol
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 9,
+      'dia_semana': 1,
+      'hora_inicio': '18:00',
+      'hora_fim': '20:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 9,
+      'dia_semana': 3,
+      'hora_inicio': '18:00',
+      'hora_fim': '20:00',
+    });
+    batch.insert('quadra_horarios', {
+      'fk_id_quadra': 9,
+      'dia_semana': 5,
+      'hora_inicio': '18:00',
+      'hora_fim': '20:00',
+    });
+
 
     await batch.commit(noResult: true);
 
