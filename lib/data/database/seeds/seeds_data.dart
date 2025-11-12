@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class SeedData {
   static Future<void> populate(Database db) async {
     final batch = db.batch();
@@ -121,10 +120,9 @@ class SeedData {
       'fk_id_estabelecimento': 1,
       'fk_id_esporte': 1,
     });
-    
+
     final senhaAdmin = 'admin123';
-    final senhaHash =
-        sha256.convert(utf8.encode(senhaAdmin)).toString(); 
+    final senhaHash = sha256.convert(utf8.encode(senhaAdmin)).toString();
 
     batch.insert('usuarios', {
       'nome': 'Administrador',
@@ -134,16 +132,16 @@ class SeedData {
       'idade': 25,
       'fk_id_cidade': 1,
     });
-    
+
     batch.insert('grupos_esportes', {
       'nome': 'Futebol Santa Cruz do Sul',
-      'fk_id_esporte': 1, 
-      'fk_id_cidade': 1, 
-      'fk_id_criador': 1, 
+      'fk_id_esporte': 1,
+      'fk_id_cidade': 1,
+      'fk_id_criador': 1,
       'descricao': 'Grupo padrão de futebol em Santa Cruz do Sul.',
       'visibilidade': 'publico',
     });
-    
+
     batch.insert('grupos_esportes_participantes', {
       'fk_id_grupo_esportes': 1,
       'fk_id_usuario': 1,
@@ -153,10 +151,10 @@ class SeedData {
     batch.insert('eventos', {
       'nome': 'Pelada de Sábado',
       'descricao': 'Jogo amistoso de futebol aberto para moradores da cidade.',
-      'fk_id_grupo_esportes': 1, 
+      'fk_id_grupo_esportes': 1,
       'fk_id_estabelecimento': 1,
-      'fk_id_criador': 1, 
-      'fk_id_esporte': 1, 
+      'fk_id_criador': 1,
+      'fk_id_esporte': 1,
       'visibilidade': 'publico',
       'idade_min': 16,
       'idade_max': 40,
@@ -358,10 +356,8 @@ class SeedData {
       'hora_fim': '20:00',
     });
 
-
     await batch.commit(noResult: true);
 
     print('banco populado');
-
   }
 }

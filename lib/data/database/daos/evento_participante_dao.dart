@@ -1,10 +1,7 @@
 import 'package:reserva_eventos/data/database/app_database.dart';
 
 class EventoParticipanteDAO {
-  Future<bool> jaParticipa({
-    required int userId,
-    required int eventoId,
-  }) async {
+  Future<bool> jaParticipa({required int userId, required int eventoId}) async {
     final db = await AppDatabase.instance.database;
     final res = await db.query(
       'eventos_participantes',

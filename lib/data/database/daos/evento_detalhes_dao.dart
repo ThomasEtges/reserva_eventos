@@ -4,7 +4,8 @@ class EventoDetalhesDAO {
   Future<Map<String, dynamic>?> buscarPorId(int eventoId) async {
     final db = await AppDatabase.instance.database;
 
-    final result = await db.rawQuery('''
+    final result = await db.rawQuery(
+      '''
       SELECT 
         e.id AS evento_id,
         e.nome AS evento_nome,
@@ -28,7 +29,9 @@ class EventoDetalhesDAO {
       JOIN quadras q ON q.fk_id_estabelecimento = est.id
       WHERE e.id = ?
       LIMIT 1;
-    ''', [eventoId]);
+    ''',
+      [eventoId],
+    );
 
     if (result.isEmpty) return null;
     return result.first;
@@ -36,17 +39,20 @@ class EventoDetalhesDAO {
 
   Future<List<Map<String, dynamic>>> listarParticipantes(int eventoId) async {
     final db = await AppDatabase.instance.database;
-    return db.rawQuery('''
+    return db.rawQuery(
+      '''
       SELECT u.id, u.nome
       FROM eventos_participantes p
       INNER JOIN usuarios u ON u.id = p.fk_id_usuario
       WHERE p.fk_id_evento = ?
       ORDER BY u.nome;
-    ''', [eventoId]);
+    ''',
+      [eventoId],
+    );
   }
 
   Future<void> excluirEvento(int eventoId) async {
-  final db = await AppDatabase.instance.database;
+    final db = await AppDatabase.instance.database;
 
     await db.transaction((txn) async {
       await txn.delete(
@@ -61,12 +67,7 @@ class EventoDetalhesDAO {
         whereArgs: [eventoId],
       );
 
-      await txn.delete(
-        'eventos',
-        where: 'id = ?',
-        whereArgs: [eventoId],
-      );
+      await txn.delete('eventos', where: 'id = ?', whereArgs: [eventoId]);
     });
   }
-
 }

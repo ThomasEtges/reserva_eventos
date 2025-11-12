@@ -10,9 +10,9 @@ class Evento {
   final int? idadeMin;
   final int? idadeMax;
   final String? genero;
-  final String dataHoraInicio; 
+  final String dataHoraInicio;
   final String dataHoraFim;
-  final String status; 
+  final String status;
 
   Evento({
     this.id,

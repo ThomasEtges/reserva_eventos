@@ -6,3 +6,4 @@ class EsporteDao {
     return await db.query('esportes', orderBy: 'nome ASC');
   }
 }
+  

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:reserva_eventos/data/database/daos/notificacao_dao.dart';
+import 'package:reserva_eventos/data/repositories/notificacao_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:reserva_eventos/data/repositories/evento_repository.dart';
@@ -20,6 +22,19 @@ class HomeController {
   final repoUser = UserRepository(UserDAO());
   final repoQuadra = QuadraRepository(QuadraDAO());
   final repoReserva = QuadraReservaRepository(QuadraReservaDAO());
+  final repoNoti = NotificacaoRepository(NotificacaoDAO());
+
+  Future<List<Map<String, dynamic>>> listarNotificacoes(int userId) {
+    return repoNoti.listar(userId);
+  }
+
+  Future<void> marcarComoLida(int id) {
+    return repoNoti.marcarComoLida(id);
+  }
+
+  Future<void> limparNotificacoes(int userId) {
+    return repoNoti.excluirTodas(userId);
+  }
 
   Future<List<Map<String, dynamic>>> buscarEventos(int userId) {
     return repoEvento.buscarEventos(userId);
@@ -48,7 +63,7 @@ class HomeController {
       );
       return;
     }
- 
+
     final nomeCtrl = TextEditingController();
     final descCtrl = TextEditingController();
 
@@ -60,7 +75,7 @@ class HomeController {
     List<Map<String, dynamic>> horariosDisp = [];
 
     DateTime? dataSel;
-    String? horaInicioSel; 
+    String? horaInicioSel;
     String? horaFimSel;
 
     String visibilidade = 'publico';
@@ -173,16 +188,22 @@ class HomeController {
                       labelText: 'Quadra',
                     ),
                     value: quadraSelId,
-                    items: quadras.map(
-                      (q) => DropdownMenuItem<int>(
-                        value: q['quadra_id'] as int,
-                        child: Text('${q['estabelecimento_nome']} - ${q['quadra_nome']}'),
-                      ),
-                    ).toList(),
+                    items: quadras
+                        .map(
+                          (q) => DropdownMenuItem<int>(
+                            value: q['quadra_id'] as int,
+                            child: Text(
+                              '${q['estabelecimento_nome']} - ${q['quadra_nome']}',
+                            ),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (id) {
                       setState(() {
                         quadraSelId = id;
-                        quadraSel = quadras.firstWhere((q) => q['quadra_id'] == id);
+                        quadraSel = quadras.firstWhere(
+                          (q) => q['quadra_id'] == id,
+                        );
                       });
                       _carregarHorariosDisponiveis();
                     },

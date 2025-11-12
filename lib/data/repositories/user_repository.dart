@@ -36,7 +36,6 @@ class UserRepository {
     );
   }
 
-
   Future<User?> login(String email, String senha) async {
     final hash = hashPassword(senha);
     return _dao.login(email.trim().toLowerCase(), hash);
@@ -51,9 +50,6 @@ class UserRepository {
   }
 
   Future<List<Map<String, dynamic>>> listarGrupos(int userId) async {
-  return _dao.listarGrupos(userId);
+    return _dao.listarGrupos(userId);
   }
-
-  
 }
-

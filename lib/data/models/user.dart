@@ -18,22 +18,22 @@ class User {
   });
 
   Map<String, dynamic> toMap() => {
-        'id': id,
-        'nome': nome,
-        'email': email,
-        'senha_hash': senhaHash,
-        'genero': genero,
-        'idade': idade,
-        'fk_id_cidade': fkIdCidade,
-      };
+    'id': id,
+    'nome': nome,
+    'email': email,
+    'senha_hash': senhaHash,
+    'genero': genero,
+    'idade': idade,
+    'fk_id_cidade': fkIdCidade,
+  };
 
   factory User.fromMap(Map<String, dynamic> map) => User(
-        id: map['id'] as int?,
-        nome: map['nome'] as String,
-        email: map['email'] as String,
-        senhaHash: map['senha_hash'] as String,
-        genero: map['genero'] as String,
-        idade: map['idade'] as int,
-        fkIdCidade: map['fk_id_cidade'] as int,
-      );
+    id: map['id'] as int?,
+    nome: map['nome'] as String,
+    email: map['email'] as String,
+    senhaHash: map['senha_hash'] as String,
+    genero: map['genero'] as String,
+    idade: map['idade'] as int,
+    fkIdCidade: map['fk_id_cidade'] as int,
+  );
 }

@@ -25,7 +25,6 @@ class _CadastroPageState extends State<CadastroPage> {
   List<Map<String, dynamic>> esportes = [];
   List<int> esportesSelecionados = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -103,7 +102,7 @@ class _CadastroPageState extends State<CadastroPage> {
                 ),
               ),
               const SizedBox(height: 10),
-               DropdownButtonFormField<int>(
+              DropdownButtonFormField<int>(
                 decoration: const InputDecoration(
                   labelText: 'Cidade',
                   border: OutlineInputBorder(),
@@ -140,64 +139,68 @@ class _CadastroPageState extends State<CadastroPage> {
               const SizedBox(height: 10),
 
               TextFormField(
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Esportes favoritos',
-                    border: OutlineInputBorder(),
-                  ),
-                  controller: TextEditingController(
-                    text: esportes
-                        .where((e) => esportesSelecionados.contains(e['id']))
-                        .map((e) => e['nome'])
-                        .join(', '),
-                  ),
-                  onTap: () async {
-                    await showDialog(
-                      context: context,
-                      builder: (context) {
-                        return StatefulBuilder(
-                          builder: (context, setStateDialog) {
-                            return AlertDialog(
-                              title: const Text('Selecione seus esportes favoritos'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: esportes.map((esporte) {
-                                    final id = esporte['id'] as int;
-                                    final nome = esporte['nome'] as String;
-                                    final selecionado = esportesSelecionados.contains(id);
-
-                                    return CheckboxListTile(
-                                      title: Text(nome),
-                                      value: selecionado,
-                                      controlAffinity: ListTileControlAffinity.leading,
-                                      onChanged: (marcado) {
-                                        setStateDialog(() {
-                                          if (marcado == true) {
-                                            esportesSelecionados.add(id);
-                                          } else {
-                                            esportesSelecionados.remove(id);
-                                          }
-                                        });
-                                      },
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text('Fechar'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
-                    setState(() {});
-                  },
+                readOnly: true,
+                decoration: const InputDecoration(
+                  labelText: 'Esportes favoritos',
+                  border: OutlineInputBorder(),
                 ),
+                controller: TextEditingController(
+                  text: esportes
+                      .where((e) => esportesSelecionados.contains(e['id']))
+                      .map((e) => e['nome'])
+                      .join(', '),
+                ),
+                onTap: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(
+                        builder: (context, setStateDialog) {
+                          return AlertDialog(
+                            title: const Text(
+                              'Selecione seus esportes favoritos',
+                            ),
+                            content: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: esportes.map((esporte) {
+                                  final id = esporte['id'] as int;
+                                  final nome = esporte['nome'] as String;
+                                  final selecionado = esportesSelecionados
+                                      .contains(id);
+
+                                  return CheckboxListTile(
+                                    title: Text(nome),
+                                    value: selecionado,
+                                    controlAffinity:
+                                        ListTileControlAffinity.leading,
+                                    onChanged: (marcado) {
+                                      setStateDialog(() {
+                                        if (marcado == true) {
+                                          esportesSelecionados.add(id);
+                                        } else {
+                                          esportesSelecionados.remove(id);
+                                        }
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text('Fechar'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
+                  setState(() {});
+                },
+              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _onCadastrar,

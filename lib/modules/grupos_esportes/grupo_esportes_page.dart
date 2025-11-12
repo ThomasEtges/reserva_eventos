@@ -94,8 +94,10 @@ class _GrupoEsportesPageState extends State<GrupoEsportesPage> {
             heroTag: 'btn_criar_grupo',
             backgroundColor: Colors.deepPurple,
             icon: const Icon(Icons.add, color: Colors.white),
-            label:
-                const Text('Criar Grupo', style: TextStyle(color: Colors.white)),
+            label: const Text(
+              'Criar Grupo',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () async {
               await controller.criarGrupoEsporteDialog(context);
               await loadGrupos();

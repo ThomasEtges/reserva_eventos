@@ -46,7 +46,6 @@ class GrupoEsportesRepository {
   }
 
   Future<void> sair(int userId, int grupoId) async {
-  await _dao.sairDoGrupo(userId, grupoId);
-  } 
-
+    await _dao.sairDoGrupo(userId, grupoId);
+  }
 }

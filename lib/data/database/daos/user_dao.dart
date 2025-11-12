@@ -3,10 +3,13 @@ import 'package:reserva_eventos/data/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 
 class UserDAO {
-
   Future<int> insert(User user) async {
     final db = await AppDatabase.instance.database;
-    return db.insert('usuarios', user.toMap(), conflictAlgorithm: ConflictAlgorithm.abort);
+    return db.insert(
+      'usuarios',
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
   }
 
   Future<List<Map<String, dynamic>>> getAll() async {
@@ -31,16 +34,13 @@ class UserDAO {
 
     final batch = db.batch();
 
-    for(final idEsporte in esportesIds){
-      batch.insert('usuario_esportes', 
-      {
+    for (final idEsporte in esportesIds) {
+      batch.insert('usuario_esportes', {
         'fk_id_usuario': userId,
         'fk_id_esporte': idEsporte,
-      },
-      conflictAlgorithm: ConflictAlgorithm.ignore
-      );
+      }, conflictAlgorithm: ConflictAlgorithm.ignore);
     }
-      await batch.commit(noResult: true);
+    await batch.commit(noResult: true);
   }
 
   Future<bool> participaDeAlgumGrupo(int userId) async {
@@ -57,13 +57,16 @@ class UserDAO {
 
   Future<List<Map<String, dynamic>>> buscarEsportesFavoritos(int userId) async {
     final db = await AppDatabase.instance.database;
-    return db.rawQuery('''
+    return db.rawQuery(
+      '''
       SELECT e.id, e.nome
       FROM esportes e
       INNER JOIN usuario_esportes ue ON ue.fk_id_esporte = e.id
       WHERE ue.fk_id_usuario = ?
       ORDER BY e.nome ASC
-    ''', [userId]);
+    ''',
+      [userId],
+    );
   }
 
   Future<int?> buscarCidadeUsuario(int userId) async {
@@ -80,7 +83,8 @@ class UserDAO {
 
   Future<List<Map<String, dynamic>>> listarGrupos(int userId) async {
     final db = await AppDatabase.instance.database;
-    return await db.rawQuery('''
+    return await db.rawQuery(
+      '''
       SELECT
         g.*,
         CASE WHEN p.fk_id_usuario IS NOT NULL THEN 1 ELSE 0 END AS participa
@@ -88,8 +92,8 @@ class UserDAO {
       LEFT JOIN grupos_esportes_participantes p
         ON p.fk_id_grupo_esportes = g.id AND p.fk_id_usuario = ?
       ORDER BY g.nome ASC
-    ''', [userId]);
+    ''',
+      [userId],
+    );
   }
-
-  
 }

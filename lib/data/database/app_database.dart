@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:path/path.dart';
-//import 'package:reserva_eventos/data/database/seeds/seeds_data.dart';
+import 'package:reserva_eventos/data/database/seeds/seeds_data.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AppDatabase {
@@ -29,7 +29,6 @@ class AppDatabase {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    
     await db.execute('''
       CREATE TABLE cidades (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -101,7 +100,7 @@ class AppDatabase {
         FOREIGN KEY (fk_id_quadra) REFERENCES quadras (id)
       );
     ''');
-    
+
     await db.execute('''
       CREATE TABLE quadra_reservas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -221,8 +220,7 @@ class AppDatabase {
       );
     ''');
 
-    //await SeedData.populate(db);
-
+    await SeedData.populate(db);
   }
 
   Future<void> close() async {

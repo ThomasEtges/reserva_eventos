@@ -20,7 +20,6 @@ class CadastroController {
     return _esporteRepository.listarEsportes();
   }
 
-
   Future<void> cadastroUsuario({
     required BuildContext context,
     required String nome,
@@ -72,7 +71,7 @@ class CadastroController {
       );
 
       if (user.id != null && esportesSelecionados.isNotEmpty) {
-      await UserDAO().vincularEsportes(user.id!, esportesSelecionados);
+        await UserDAO().vincularEsportes(user.id!, esportesSelecionados);
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -80,13 +79,10 @@ class CadastroController {
       );
 
       Modular.to.navigate('/login/');
-
     } catch (e) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Erro ao cadastrar: $e')));
     }
   }
-
-  
 }

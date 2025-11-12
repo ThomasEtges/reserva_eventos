@@ -4,8 +4,8 @@ class QuadraReservaDAO {
   Future<int> criarReserva({
     required int eventoId,
     required int quadraId,
-    required String data,  
-    required String horaInicio, 
+    required String data,
+    required String horaInicio,
     required String horaFim,
   }) async {
     final db = await AppDatabase.instance.database;

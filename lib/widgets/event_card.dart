@@ -22,10 +22,7 @@ class EventoCard extends StatelessWidget {
         ),
         isThreeLine: true,
         onTap: () {
-          Modular.to.pushNamed(
-            '/evento_detalhes/',
-            arguments: evento['id'],
-          );
+          Modular.to.pushNamed('/evento_detalhes/', arguments: evento['id']);
         },
       ),
     );

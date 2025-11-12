@@ -32,12 +32,13 @@ class PedidoDAO {
   }
 
   Future<List<Map<String, dynamic>>> listarPedidosEvento({
-  required int eventoId,
-  required int criadorId,
-}) async {
-  final db = await AppDatabase.instance.database;
+    required int eventoId,
+    required int criadorId,
+  }) async {
+    final db = await AppDatabase.instance.database;
 
-  return db.rawQuery('''
+    return db.rawQuery(
+      '''
     SELECT 
       p.id AS pedido_id,
       u.id AS usuario_id,
@@ -49,12 +50,13 @@ class PedidoDAO {
       AND p.fk_id_destinatario = ?
       AND p.origem_pedido = 'evento'
     ORDER BY p.id DESC;
-  ''', [eventoId, criadorId]);
-}
+  ''',
+      [eventoId, criadorId],
+    );
+  }
 
-Future<void> excluirPedido(int pedidoId) async {
-  final db = await AppDatabase.instance.database;
-  await db.delete('pedidos', where: 'id = ?', whereArgs: [pedidoId]);
-}
-
+  Future<void> excluirPedido(int pedidoId) async {
+    final db = await AppDatabase.instance.database;
+    await db.delete('pedidos', where: 'id = ?', whereArgs: [pedidoId]);
+  }
 }

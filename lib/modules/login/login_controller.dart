@@ -10,9 +10,9 @@ class LoginController {
 
   Future<void> login(BuildContext context, String email, String senha) async {
     if (email.isEmpty || senha.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Preencha e-mail e senha.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Preencha e-mail e senha.')));
       return;
     }
 
@@ -32,22 +32,19 @@ class LoginController {
 
       final participa = await _dao.participaDeAlgumGrupo(user.id!);
 
-      
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Bem-vindo, ${user.nome}!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Bem-vindo, ${user.nome}!')));
 
       if (participa) {
         Modular.to.navigate('/home/');
       } else {
         Modular.to.navigate('/grupos_esportes/');
       }
-
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao fazer login: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Erro ao fazer login: $e')));
     }
   }
-
 }

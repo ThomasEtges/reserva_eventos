@@ -87,7 +87,6 @@ class GrupoEsportesController {
       Navigator.pop(context, true);
 
       Modular.to.navigate('/home/');
-
     } catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -219,7 +218,6 @@ class GrupoEsportesController {
                       descricao: descricao,
                       visibilidade: visibilidade,
                     );
-                    
                   },
                   child: const Text('Criar grupo'),
                 ),

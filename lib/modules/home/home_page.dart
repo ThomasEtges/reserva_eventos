@@ -15,7 +15,6 @@ class _HomePageState extends State<HomePage> {
   final controller = HomeController();
   List<Map<String, dynamic>> eventos = [];
   int? userId;
-  bool isLoading = true;
 
   @override
   void initState() {
@@ -24,16 +23,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _carregarEventos() async {
-    setState(() => isLoading = true);
-
     final prefs = await SharedPreferences.getInstance();
     userId = prefs.getInt('user_id');
 
     if (userId != null) {
-      eventos = await controller.buscarEventos(userId!);
+      final novosEventos = await controller.buscarEventos(userId!);
+      setState(() {
+        eventos = novosEventos;
+      });
     }
-
-    setState(() => isLoading = false);
   }
 
   @override
@@ -41,42 +39,142 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Eventos disponíveis'),
-      ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : eventos.isEmpty
-              ? const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Text(
-                      'Nenhum evento disponível.\nParticipe de grupos para ver mais eventos!',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, color: Colors.grey),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              final uid = prefs.getInt('user_id');
+              if (uid == null) return;
+
+              final notificacoes = await controller.listarNotificacoes(uid);
+              if (notificacoes.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Nenhuma notificação.')),
+                );
+                return;
+              }
+
+              showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                ),
+                builder: (ctx) {
+                  return SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            children: [
+                              const Expanded(
+                                child: Text(
+                                  'Notificações',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              TextButton.icon(
+                                onPressed: () async {
+                                  await controller.limparNotificacoes(uid);
+                                  Navigator.pop(ctx);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Notificações limpas.'),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.delete_forever),
+                                label: const Text('Limpar'),
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                          ...notificacoes.map((n) {
+                            final lida = (n['lida'] as int) == 1;
+                            return ListTile(
+                              leading: Icon(
+                                lida
+                                    ? Icons.mark_email_read
+                                    : Icons.notifications,
+                                color: lida ? Colors.grey : Colors.deepPurple,
+                              ),
+                              title: Text(n['mensagem']),
+                              onTap: () async {
+                                await controller.marcarComoLida(n['id'] as int);
+                                Navigator.pop(ctx);
+                              },
+                            );
+                          }),
+                          const SizedBox(height: 12),
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              : Column(
-                children: [
-                  IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _carregarEventos,
+                  );
+                },
+              );
+            },
+            icon: const Icon(Icons.notifications),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 206, 178, 255),
+            ),
           ),
-                  ListView.builder(
-                      itemCount: eventos.length,
-                      itemBuilder: (context, index) {
-                        return EventoCard(evento: eventos[index]);
-                      },
-                    ),
-                ],
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton.icon(
+                onPressed: _carregarEventos,
+                icon: const Icon(Icons.refresh),
+                label: const Text('Atualizar'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 206, 178, 255),
+                ),
               ),
-                floatingActionButton: Row(
+            ),
+            const SizedBox(height: 12),
+
+            if (eventos.isEmpty)
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    'Nenhum evento disponível.\nParticipe de grupos para ver mais eventos!',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                ),
+              )
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: eventos.length,
+                  itemBuilder: (context, index) {
+                    return EventoCard(evento: eventos[index]);
+                  },
+                ),
+              ),
+          ],
+        ),
+      ),
+
+      floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FloatingActionButton.extended(
             heroTag: 'btn_grupos',
             backgroundColor: const Color.fromARGB(255, 69, 90, 100),
             icon: const Icon(Icons.home, color: Colors.white),
-            label: const Text('Grupos Eventos', style: TextStyle(color: Colors.white)),
+            label: const Text(
+              'Grupos Eventos',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () {
               Modular.to.navigate('/grupos_esportes/');
             },
@@ -85,8 +183,10 @@ class _HomePageState extends State<HomePage> {
             heroTag: 'btn_criar_evento',
             backgroundColor: Colors.deepPurple,
             icon: const Icon(Icons.add, color: Colors.white),
-            label:
-                const Text('Criar Evento', style: TextStyle(color: Colors.white)),
+            label: const Text(
+              'Criar Evento',
+              style: TextStyle(color: Colors.white),
+            ),
             onPressed: () async {
               await controller.abrirCriarEventoDialog(context);
               await _carregarEventos();
@@ -97,7 +197,5 @@ class _HomePageState extends State<HomePage> {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-    
   }
 }
-

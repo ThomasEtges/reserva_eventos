@@ -21,7 +21,10 @@ class GrupoEsportesCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         title: Text(
           nome,
           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -35,7 +38,9 @@ class GrupoEsportesCard extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: participa ? Colors.red : Colors.green,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           child: Text(
             participa ? 'Sair do grupo' : 'Participar',

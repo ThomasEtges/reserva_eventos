@@ -3,7 +3,7 @@ import 'cadastro_page.dart';
 
 class CadastroModule extends Module {
   @override
-  void routes(RouteManager r) { 
+  void routes(RouteManager r) {
     r.child('/', child: (_) => const CadastroPage());
   }
 }

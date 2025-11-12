@@ -16,12 +16,14 @@ class PedidoRepository {
     );
   }
 
-  Future<List<Map<String, dynamic>>> listarPedidosEvento(int eventoId, int criadorId) {
-  return _dao.listarPedidosEvento(eventoId: eventoId, criadorId: criadorId);
-}
+  Future<List<Map<String, dynamic>>> listarPedidosEvento(
+    int eventoId,
+    int criadorId,
+  ) {
+    return _dao.listarPedidosEvento(eventoId: eventoId, criadorId: criadorId);
+  }
 
-Future<void> excluirPedido(int pedidoId) {
-  return _dao.excluirPedido(pedidoId);
-}
-
+  Future<void> excluirPedido(int pedidoId) {
+    return _dao.excluirPedido(pedidoId);
+  }
 }
